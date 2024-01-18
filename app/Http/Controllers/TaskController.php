@@ -27,7 +27,7 @@ class TaskController extends Controller
     public function store(Request $request) {
         $validate = $request->validate([
             'title'=> 'required|max:255',
-            'is_done'=> 'required',
+            'is_done'=> 'boolean',
         ]);
 
        /** @var \App\Models\User $tasks **/
@@ -37,9 +37,10 @@ class TaskController extends Controller
     }
     public function update(UpdateTaskRequest $request, Task $task) {
         $validate = $request->validate([
-            'title'=> 'required|max:255',
-            'is_done'=> 'required|boolean',
-            ]);
+            'title'=> 'sometimes|max:255',
+            'is_done'=> 'sometimes',
+            'project_id'=> 'sometimes'
+        ]);
         $task->update($validate);
         return new TaskResource($task);
     }
