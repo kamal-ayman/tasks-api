@@ -29,8 +29,9 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
     protected static function booted(): void {
-        static::addGlobalScope("creator", function (Builder $builder) {
-            $builder->where("creator_id", Auth::id());
+        static::addGlobalScope("mamber", function (Builder $builder) {
+            $builder->where("creator_id", Auth::id())
+            ->orWhereIn("project_id", Auth::user()->memberships->pluck("id"));
         });
     }
 }

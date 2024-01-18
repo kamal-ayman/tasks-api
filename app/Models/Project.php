@@ -28,7 +28,7 @@ class Project extends Model
     }
     protected static function booted(): void {
         static::addGlobalScope("creator", function (Builder $builder) {
-            $builder->where("creator_id", Auth::id());
+            $builder->whereRelation('members', 'user_id', Auth::id());
         });
     }
 }
